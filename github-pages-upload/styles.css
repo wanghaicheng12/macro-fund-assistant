@@ -56,6 +56,7 @@ body::before {
 
 .topbar,
 .hero,
+.mobile-app-nav,
 .metrics,
 .pulse,
 .feed-layout,
@@ -67,6 +68,10 @@ body::before {
 .workflow {
   position: relative;
   z-index: 1;
+}
+
+.mobile-app-nav {
+  display: none;
 }
 
 .topbar {
@@ -707,6 +712,13 @@ body::before {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.portfolio-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 16px;
+}
+
 .portfolio-card {
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.84), rgba(255, 248, 236, 0.72)),
@@ -919,12 +931,78 @@ body::before {
 }
 
 @media (max-width: 760px) {
-  .page-shell {
-    width: min(100vw - 20px, 1240px);
-    padding-top: 20px;
+  body {
+    background:
+      radial-gradient(circle at 10% 0%, rgba(22, 99, 85, 0.18), transparent 34%),
+      linear-gradient(180deg, #f9f1e5 0%, #efe6d7 100%);
   }
 
-  .topbar,
+  .page-shell {
+    width: 100%;
+    padding: 14px 12px 90px;
+  }
+
+  .topbar {
+    padding: 14px 14px 4px;
+    margin-bottom: 10px;
+  }
+
+  .topbar h1 {
+    font-size: 2rem;
+  }
+
+  .topbar-text,
+  .topbar-meta,
+  .hero-panel,
+  .source-board,
+  .archive-board,
+  .workflow {
+    display: none;
+  }
+
+  .mobile-app-nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    gap: 8px;
+    margin: 0 -12px 14px;
+    padding: 10px 12px;
+    overflow-x: auto;
+    background: rgba(239, 230, 215, 0.92);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(29, 36, 51, 0.08);
+  }
+
+  .mobile-nav-button {
+    flex: 0 0 auto;
+    border: 1px solid rgba(29, 36, 51, 0.08);
+    border-radius: 999px;
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.76);
+    color: var(--ink);
+    font: inherit;
+    font-weight: 800;
+  }
+
+  .mobile-nav-button.active {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  [data-mobile-section] {
+    display: none;
+  }
+
+  [data-mobile-section].mobile-section-active {
+    display: block;
+  }
+
+  .metrics.mobile-section-active,
+  .pulse.mobile-section-active {
+    display: grid;
+  }
+
   .section-heading,
   .feed-card-top,
   .feed-card-bottom,
@@ -943,7 +1021,63 @@ body::before {
   .summary-card,
   .sidebar-card,
   .workflow-card {
-    padding: 20px;
+    padding: 18px;
+    border-radius: 22px;
+    box-shadow: 0 12px 34px rgba(59, 46, 31, 0.08);
+  }
+
+  .hero h2,
+  .section-heading h2,
+  .summary-card h3 {
+    font-size: 1.55rem;
+    line-height: 1.18;
+  }
+
+  .hero-text,
+  .summary-narrative,
+  .allocation-note,
+  .feed-desc,
+  .allocation-card p,
+  .portfolio-reason,
+  .portfolio-plan,
+  .portfolio-risk {
+    font-size: 0.96rem;
+    line-height: 1.68;
+  }
+
+  .metrics,
+  .pulse,
+  .feed-layout,
+  .summary,
+  .allocation,
+  .portfolio-board {
+    margin-bottom: 18px;
+  }
+
+  .section-heading {
+    margin-bottom: 12px;
+  }
+
+  .section-heading .toolbar {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .chip-group,
+  .portfolio-filter-row,
+  .tab-row {
+    flex-wrap: nowrap;
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .chip-button,
+  .summary-tab,
+  .toolbar-button {
+    flex: 0 0 auto;
+    padding: 9px 13px;
+    font-size: 0.9rem;
   }
 
   .hero-meta-grid,
@@ -954,5 +1088,79 @@ body::before {
   .scenario-grid,
   .summary-columns {
     grid-template-columns: 1fr;
+  }
+
+  .metrics-grid,
+  .pulse-grid {
+    gap: 10px;
+  }
+
+  .metric-card,
+  .pulse-card,
+  .allocation-card,
+  .portfolio-card,
+  .feed-list article,
+  .recommendation-card {
+    padding: 16px;
+    border-radius: 20px;
+  }
+
+  .metric-card strong {
+    font-size: 1.9rem;
+  }
+
+  .feed-grid,
+  .summary-layout {
+    gap: 12px;
+  }
+
+  .feed-advice-grid,
+  .recommendation-grid {
+    gap: 10px;
+  }
+
+  .portfolio-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .portfolio-stat-card {
+    padding: 14px;
+  }
+
+  .portfolio-stat-card strong {
+    font-size: 1.25rem;
+  }
+
+  .portfolio-card-head {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .portfolio-card h3 {
+    font-size: 1rem;
+  }
+
+  .holding-metrics,
+  .scenario-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .holding-metrics > div,
+  .scenario-grid > div {
+    padding: 10px;
+  }
+
+  .holding-metrics strong,
+  .scenario-grid strong {
+    font-size: 0.92rem;
+  }
+
+  .stance-pill {
+    width: fit-content;
+    padding: 7px 11px;
   }
 }

@@ -26,7 +26,15 @@
     </header>
 
     <main>
-      <section class="hero reveal">
+      <nav class="mobile-app-nav" aria-label="手机快捷导航">
+        <button class="mobile-nav-button active" type="button" data-target="home">首页</button>
+        <button class="mobile-nav-button" type="button" data-target="portfolio">我的基金</button>
+        <button class="mobile-nav-button" type="button" data-target="signals">信号</button>
+        <button class="mobile-nav-button" type="button" data-target="summary">总结</button>
+        <button class="mobile-nav-button" type="button" data-target="allocation">配置</button>
+      </nav>
+
+      <section class="hero reveal" data-mobile-section="home">
         <div class="hero-copy">
           <p class="eyebrow">Current Issue</p>
           <h2 id="heroTitle"></h2>
@@ -55,7 +63,7 @@
         </aside>
       </section>
 
-      <section class="metrics reveal">
+      <section class="metrics reveal" data-mobile-section="home">
         <div class="section-heading">
           <div>
             <p class="eyebrow">Snapshot</p>
@@ -65,7 +73,7 @@
         <div id="metricGrid" class="metrics-grid"></div>
       </section>
 
-      <section class="pulse reveal">
+      <section class="pulse reveal" data-mobile-section="home">
         <div class="section-heading">
           <div>
             <p class="eyebrow">Pulse Map</p>
@@ -75,7 +83,7 @@
         <div id="pulseGrid" class="pulse-grid"></div>
       </section>
 
-      <section id="live-feed" class="feed-layout reveal">
+      <section id="live-feed" class="feed-layout reveal" data-mobile-section="signals">
         <div class="section-heading">
           <div>
             <p class="eyebrow">Verified Feed</p>
@@ -101,7 +109,7 @@
         </div>
       </section>
 
-      <section id="summary" class="summary reveal">
+      <section id="summary" class="summary reveal" data-mobile-section="summary">
         <div class="section-heading">
           <div>
             <p class="eyebrow">Digest Engine</p>
@@ -147,7 +155,7 @@
         </div>
       </section>
 
-      <section class="allocation reveal">
+      <section class="allocation reveal" data-mobile-section="allocation">
         <div class="section-heading">
           <div>
             <p class="eyebrow">Fund Direction</p>
@@ -158,7 +166,7 @@
         <div id="allocationGrid" class="allocation-grid"></div>
       </section>
 
-      <section class="portfolio-board reveal">
+      <section class="portfolio-board reveal" data-mobile-section="portfolio">
         <div class="section-heading">
           <div>
             <p class="eyebrow">My Portfolio</p>
@@ -167,6 +175,7 @@
         </div>
         <p class="allocation-note" id="portfolioNote"></p>
         <div id="portfolioStats" class="portfolio-stats"></div>
+        <div id="portfolioFilters" class="portfolio-filter-row"></div>
         <div id="portfolioGrid" class="portfolio-grid"></div>
       </section>
 

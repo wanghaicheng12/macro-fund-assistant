@@ -4,7 +4,9 @@ const state = {
   activeIssueId: null,
   activeFilter: "all",
   activeSummary: "weekly",
-  sortMode: "impact"
+  sortMode: "impact",
+  activeMobileSection: "home",
+  activePortfolioFilter: "all"
 };
 
 const filterLabels = {
@@ -13,6 +15,15 @@ const filterLabels = {
   china: "国内快讯",
   official: "官方数据",
   institution: "机构报告"
+};
+
+const portfolioFilters = {
+  all: "全部",
+  reduce: "需降权",
+  add: "可增配",
+  overseas: "海外",
+  consumption: "消费",
+  newEnergy: "新能源"
 };
 
 function initializeDashboard() {
@@ -34,6 +45,8 @@ function initializeDashboard() {
   renderWorkflow();
   renderSummaryTabs();
   renderFilters();
+  renderMobileNav();
+  renderPortfolioFilters();
   renderAll();
 
   document.getElementById("sortButton").addEventListener("click", toggleSortMode);
@@ -54,6 +67,7 @@ function renderAll() {
   renderPortfolio(snapshot);
   renderSources(snapshot);
   renderArchive(snapshot.issueId);
+  applyMobileSection();
 }
 
 function getActiveSnapshot() {
@@ -282,7 +296,14 @@ function renderPortfolio(snapshot) {
     </article>
   `).join("");
 
-  grid.innerHTML = portfolio.holdings.map((item) => `
+  const holdings = portfolio.holdings.filter((item) => matchesPortfolioFilter(item, state.activePortfolioFilter));
+
+  if (holdings.length === 0) {
+    grid.innerHTML = "<div class='empty-state'>当前筛选条件下没有持仓。</div>";
+    return;
+  }
+
+  grid.innerHTML = holdings.map((item) => `
     <article class="portfolio-card">
       <div class="portfolio-card-head">
         <div>
@@ -324,6 +345,56 @@ function renderPortfolio(snapshot) {
       <p class="portfolio-risk"><strong>风险：</strong>${item.risk}</p>
     </article>
   `).join("");
+}
+
+function renderMobileNav() {
+  Array.from(document.querySelectorAll(".mobile-nav-button")).forEach((button) => {
+    button.classList.toggle("active", button.dataset.target === state.activeMobileSection);
+    button.addEventListener("click", () => {
+      state.activeMobileSection = button.dataset.target;
+      applyMobileSection();
+      renderMobileNav();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  });
+}
+
+function applyMobileSection() {
+  Array.from(document.querySelectorAll("[data-mobile-section]")).forEach((section) => {
+    section.classList.toggle("mobile-section-active", section.dataset.mobileSection === state.activeMobileSection);
+  });
+}
+
+function renderPortfolioFilters() {
+  const container = document.getElementById("portfolioFilters");
+  if (!container) {
+    return;
+  }
+
+  container.innerHTML = "";
+  Object.entries(portfolioFilters).forEach(([key, label]) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `chip-button ${state.activePortfolioFilter === key ? "active" : ""}`;
+    button.textContent = label;
+    button.addEventListener("click", () => {
+      state.activePortfolioFilter = key;
+      renderPortfolioFilters();
+      renderPortfolio(getActiveSnapshot());
+    });
+    container.appendChild(button);
+  });
+}
+
+function matchesPortfolioFilter(item, filter) {
+  const text = `${item.name} ${item.theme} ${item.action} ${item.reason}`.toLowerCase();
+  if (filter === "all") return true;
+  if (filter === "reduce") return /降权|减仓|不加仓|观察|低配/.test(text);
+  if (filter === "add") return /增配|新增|提高|对冲/.test(text);
+  if (filter === "overseas") return /qdii|纳斯达克|日本|港股|海外|全球/.test(text);
+  if (filter === "consumption") return /消费|养老|内需|必选/.test(text);
+  if (filter === "newEnergy") return /新能源|储能|电池|光伏|锂电|材料/.test(text);
+  return true;
 }
 
 function renderSources(snapshot) {
