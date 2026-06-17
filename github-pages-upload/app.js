@@ -5,7 +5,7 @@ const state = {
   activeFilter: "all",
   activeSummary: "weekly",
   sortMode: "impact",
-  activeMobileSection: "home",
+  activeMobileSection: "dashboard",
   activePortfolioFilter: "all"
 };
 
@@ -65,6 +65,7 @@ function renderAll() {
   renderSummary(snapshot);
   renderAllocations(snapshot);
   renderPortfolio(snapshot);
+  renderMobileDashboard(snapshot);
   renderSources(snapshot);
   renderArchive(snapshot.issueId);
   applyMobileSection();
@@ -348,7 +349,7 @@ function renderPortfolio(snapshot) {
 }
 
 function renderMobileNav() {
-  Array.from(document.querySelectorAll(".mobile-nav-button")).forEach((button) => {
+  Array.from(document.querySelectorAll(".mobile-nav-button, .mobile-icon-card")).forEach((button) => {
     button.classList.toggle("active", button.dataset.target === state.activeMobileSection);
     button.addEventListener("click", () => {
       state.activeMobileSection = button.dataset.target;
@@ -357,6 +358,29 @@ function renderMobileNav() {
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
   });
+}
+
+function renderMobileDashboard(snapshot) {
+  const title = document.getElementById("mobileDashboardTitle");
+  const summary = document.getElementById("mobileDashboardSummary");
+  const stats = document.getElementById("mobileDashboardStats");
+  if (!title || !summary || !stats) {
+    return;
+  }
+
+  title.textContent = snapshot.title;
+  summary.textContent = snapshot.summary;
+  stats.innerHTML = [
+    ["组合收益", snapshot.myPortfolio?.stats?.[2]?.value || "--"],
+    ["本周风格", snapshot.tone],
+    ["基金动作", snapshot.metrics?.[3]?.value || "--"],
+    ["更新时间", snapshot.publishedAt]
+  ].map(([label, value]) => `
+    <div class="mobile-stat-pill">
+      <span>${label}</span>
+      <strong>${value}</strong>
+    </div>
+  `).join("");
 }
 
 function applyMobileSection() {

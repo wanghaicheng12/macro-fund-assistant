@@ -27,14 +27,51 @@
 
     <main>
       <nav class="mobile-app-nav" aria-label="手机快捷导航">
-        <button class="mobile-nav-button active" type="button" data-target="home">首页</button>
-        <button class="mobile-nav-button" type="button" data-target="portfolio">我的基金</button>
+        <button class="mobile-nav-button active" type="button" data-target="dashboard">看板</button>
+        <button class="mobile-nav-button" type="button" data-target="macro">宏观</button>
+        <button class="mobile-nav-button" type="button" data-target="portfolio">基金</button>
         <button class="mobile-nav-button" type="button" data-target="signals">信号</button>
         <button class="mobile-nav-button" type="button" data-target="summary">总结</button>
         <button class="mobile-nav-button" type="button" data-target="allocation">配置</button>
       </nav>
 
-      <section class="hero reveal" data-mobile-section="home">
+      <section class="mobile-dashboard reveal" data-mobile-section="dashboard">
+        <div class="mobile-dashboard-hero">
+          <p class="eyebrow">Today Board</p>
+          <h2 id="mobileDashboardTitle"></h2>
+          <p id="mobileDashboardSummary"></p>
+        </div>
+        <div id="mobileDashboardStats" class="mobile-dashboard-stats"></div>
+        <div class="mobile-icon-grid">
+          <button class="mobile-icon-card macro-card" type="button" data-target="macro">
+            <span class="mobile-icon-mark">宏</span>
+            <strong>宏观看板</strong>
+            <small>本周经济主线和脉冲</small>
+          </button>
+          <button class="mobile-icon-card portfolio-card-entry" type="button" data-target="portfolio">
+            <span class="mobile-icon-mark">基</span>
+            <strong>我的基金</strong>
+            <small>持仓调仓和收益情景</small>
+          </button>
+          <button class="mobile-icon-card signal-card" type="button" data-target="signals">
+            <span class="mobile-icon-mark">信</span>
+            <strong>信号验证</strong>
+            <small>官方数据和风险事件</small>
+          </button>
+          <button class="mobile-icon-card summary-card-entry" type="button" data-target="summary">
+            <span class="mobile-icon-mark">结</span>
+            <strong>多周期总结</strong>
+            <small>日报、周报、月报、年报</small>
+          </button>
+          <button class="mobile-icon-card allocation-card-entry" type="button" data-target="allocation">
+            <span class="mobile-icon-mark">配</span>
+            <strong>配置方向</strong>
+            <small>短债、红利、制造、黄金</small>
+          </button>
+        </div>
+      </section>
+
+      <section class="hero reveal" data-mobile-section="macro">
         <div class="hero-copy">
           <p class="eyebrow">Current Issue</p>
           <h2 id="heroTitle"></h2>
@@ -63,7 +100,7 @@
         </aside>
       </section>
 
-      <section class="metrics reveal" data-mobile-section="home">
+      <section class="metrics reveal" data-mobile-section="macro">
         <div class="section-heading">
           <div>
             <p class="eyebrow">Snapshot</p>
@@ -73,7 +110,7 @@
         <div id="metricGrid" class="metrics-grid"></div>
       </section>
 
-      <section class="pulse reveal" data-mobile-section="home">
+      <section class="pulse reveal" data-mobile-section="macro">
         <div class="section-heading">
           <div>
             <p class="eyebrow">Pulse Map</p>
