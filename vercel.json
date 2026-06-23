@@ -1,5 +1,24 @@
-﻿# 宏观基金助手
-
-这是用于 GitHub Pages 发布的静态 PWA 网站。
-
-发布后手机打开网址，选择“添加到主屏幕”，即可像 App 一样使用。
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/data/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=300, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=300"
+        }
+      ]
+    }
+  ]
+}
